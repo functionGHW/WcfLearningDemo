@@ -1,0 +1,50 @@
+﻿<Window x:Class="SimpleChatApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:valueConverts="clr-namespace:SimpleChatApp.ValueConverters"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <valueConverts:BooleanConverter x:Key="BooleanConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Label Content="Port to listen" />
+            <TextBox Text="{Binding ListenPort}" Width="40" Margin="5,5" />
+            <Button Content="Start Service" Command="{Binding StartServerCommand}"
+                    IsEnabled="{Binding IsServerStarted,
+                Converter={StaticResource BooleanConverter}, 
+                ConverterParameter=TrueAsFalse}"
+                    Margin="10,5"/>
+            <Button Content="Stop Service" Command="{Binding StopServerCommand}" 
+                    IsEnabled="{Binding IsServerStarted}"
+                    Margin="10,5"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Label Content="DisplayName" />
+            <TextBox Text="{Binding DisplayName}" Width="100" Margin="5,5" />
+            <Label Content="Connect to" />
+            <TextBox Text="{Binding ConnectIP}" Width="80" Margin="5,5" />
+            <Label Content="Port" />
+            <TextBox Text="{Binding ConnectPort}" Width="40" Margin="5,5" />
+            <Button Content="Connect" Command="{Binding ConnectCommand}" Margin="10,5"/>
+        </StackPanel>
+
+        <TextBlock ScrollViewer.VerticalScrollBarVisibility="Visible"
+                   Grid.Row="2" Text="{Binding ChatBoard}"
+                   Height="300"
+                   VerticalAlignment="Stretch"/>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <TextBox Text="{Binding Message}" Width="450" Margin="5,5"/>
+            <Button Content="Send" Command="{Binding SendCommand}" Margin="5,5" Width="40"/>
+        </StackPanel>
+    </Grid>
+</Window>
